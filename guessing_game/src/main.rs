@@ -32,4 +32,5 @@ fn main() {
             }
         }
     }
+    println!("The secret number was: {secret_number}");
 }
