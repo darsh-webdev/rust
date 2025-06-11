@@ -18,4 +18,17 @@ fn main() {
 
     let m = Message::Write(String::from("Hello World!"));
     m.call();
+
+    // Usage of the "Option" enum
+    let some_number = Some(5);
+    let some_char = Some('d');
+
+    let absent_number: Option<i32> = None;
+
+    // The below commented code will throw an error,
+    // Rust doesn’t understand how to add an i8 and an Option<i8>, because they’re different types.
+    // let x: i8 = 5;
+    // let y: Option<i8> = Some(5);
+
+    // let sum = x + y;
 }
