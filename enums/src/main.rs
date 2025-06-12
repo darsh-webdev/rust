@@ -13,6 +13,13 @@ impl Message {
     }
 }
 
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
 fn main() {
     println!("Understanding enums in Rust");
 
@@ -31,4 +38,28 @@ fn main() {
     // let y: Option<i8> = Some(5);
 
     // let sum = x + y;
+
+    // Testing plus_one function
+    let five = Some(5);
+    let six = plus_one(five);
+    let none = plus_one(None);
+
+    println!("The value of var six is {:?}", six); // This will print Some(6)
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+
+// Function that takes an Option<i32> and, if there’s a value inside, adds 1 to that value, else return "None"
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
 }
