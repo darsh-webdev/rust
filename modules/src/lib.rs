@@ -14,12 +14,16 @@ mod front_of_house {
     }
 }
 
+use crate::front_of_house::hosting;
 pub fn eat_at_restaurant() {
     // Absolute path
     crate::front_of_house::hosting::add_to_waitlist();
 
     // Relative path
     front_of_house::hosting::add_to_waitlist();
+
+    // Short path with use keyword
+    hosting::add_to_waitlist();
 
     // Order a breakfast in the summer with Rye toast.
     let mut meal = back_of_house::Breakfast::summer("Rye");
@@ -63,3 +67,11 @@ mod back_of_house {
 }
 
 fn deliver_order() {}
+
+// Issue when bringing two types with the same name
+// use std::fmt::Result;
+// use std::io::Result;
+
+// Use as keyword to rename the with a local name or alias
+use std::fmt::Result;
+use std::io::Result as IoResult;
