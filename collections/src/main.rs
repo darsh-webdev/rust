@@ -41,4 +41,26 @@ fn main() {
     for i in &mut v {
         *i += 50;
     }
+
+    // Defining an enum to store values of different types in one vector
+    enum SpreadsheetCell {
+        Int(i32),
+        Float(f64),
+        Text(String),
+    }
+
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blue")),
+        SpreadsheetCell::Float(10.12),
+    ];
+
+    // Remove last value from vector using pop
+    let mut v = vec![1, 2, 3, 4];
+    println!("Vector before pop: {:?}", v);
+
+    // Removes last element
+    v.pop();
+
+    println!("Vector after pop: {:?}", v);
 }
