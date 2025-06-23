@@ -53,4 +53,22 @@ fn main() {
     let s3 = String::from("toe");
     let s = format!("{s1}-{s2}-{s3}");
     println!("s is: {s}"); // Output: s is: tic-tac-toe
+
+    // String slicing
+    let hello = "Здравствуйте";
+    let s = &hello[0..4]; //Note: Use caution when creating string slices with ranges, because doing so can crash your program.
+    println!("s is: {s}"); // Output is: s is: Зд
+
+    // Methods for iterating over strings
+    println!("\nUsing chars() method::::");
+    // Chars method returns each char element
+    for c in "Зд".chars() {
+        println!("{c}");
+    }
+
+    println!("\nUsing bytes() method::::");
+    // Bytes method returns each raw byte
+    for b in "Зд".bytes() {
+        println!("{b}");
+    }
 }
