@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::io;
 fn main() {
     // Problem Statement 1: Given a list of integers, use a vector
     // and return the median (when sorted, the value in the middle position)
@@ -42,6 +43,71 @@ fn main() {
     println!("Pig Latin Text:");
     for word in text.split_whitespace() {
         print!("{} ", pig_latin(word));
+    }
+
+    // Problem Statement 3: Using a hash map and vectors, create a text interface
+    // to allow a user to add employee names to a department in a company;
+    // for example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve
+    // a list of all people in a department or all people in the company by department, sorted alphabetically.
+
+    let mut departments: HashMap<String, Vec<String>> = HashMap::new();
+    println!("\n\nSolution for Problem Statement 3:::::");
+    loop {
+        println!("\nEnter command (or 'quit' to exit):");
+        println!("- Add [Name] to [Department]");
+        println!("- List [Department]");
+        println!("- List all");
+
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+        let input = input.trim();
+
+        if input == "quit" {
+            break;
+        }
+
+        if input.starts_with("Add ") && input.contains(" to ") {
+            let parts: Vec<&str> = input[4..].splitn(2, " to ").collect();
+            if parts.len() == 2 {
+                let name = parts[0].to_string();
+                let department = parts[1].to_string();
+
+                departments
+                    .entry(department.clone())
+                    .or_insert_with(Vec::new)
+                    .push(name.clone());
+
+                println!("Added {} to {}", name, department);
+            }
+        } else if input == "List all" {
+            let mut dept_names: Vec<&String> = departments.keys().collect();
+            dept_names.sort();
+
+            for dept in dept_names {
+                let mut employees = departments[dept].clone();
+                employees.sort();
+                println!("{}:", dept);
+                for employee in employees {
+                    println!("  {}", employee);
+                }
+            }
+        } else if input.starts_with("List ") {
+            let department = &input[5..];
+            if let Some(employees) = departments.get(department) {
+                let mut sorted_employees = employees.clone();
+                sorted_employees.sort();
+                println!("Employees in {}:", department);
+                for employee in sorted_employees {
+                    println!("  {}", employee);
+                }
+            } else {
+                println!("Department '{}' not found", department);
+            }
+        } else {
+            println!("Invalid command");
+        }
     }
 }
 
