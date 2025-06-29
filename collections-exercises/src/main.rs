@@ -109,6 +109,80 @@ fn main() {
             println!("Invalid command");
         }
     }
+
+    // Problem Statement 4: Create a word frequency analyzer that reads a paragraph
+    // of text and counts how many times each word appears. Remove common English stop words
+    // (like "the", "and", "is", etc.) and display the most frequently used meaningful words.
+    // Show the top 5 most common words with their counts, and allow users to search for specific word frequencies.
+    let text = "The quick brown fox jumps over the lazy dog. The dog was really lazy and the fox was very quick. Programming in Rust is fun and Rust has great performance. The performance of Rust makes it popular for system programming.";
+
+    let stop_words = vec![
+        "the", "and", "is", "was", "are", "were", "a", "an", "in", "on", "at", "for", "with", "by",
+        "to", "of", "it", "has", "have", "had", "very", "really",
+    ];
+
+    let mut word_count: HashMap<String, usize> = HashMap::new();
+
+    // Process text and count words
+    for word in text.split_whitespace() {
+        let clean_word = word
+            .to_lowercase()
+            .chars()
+            .filter(|c| c.is_alphabetic())
+            .collect::<String>();
+
+        if !clean_word.is_empty() && !stop_words.contains(&clean_word.as_str()) {
+            *word_count.entry(clean_word).or_insert(0) += 1;
+        }
+    }
+
+    println!("\n\nSolution for Problem Statement 4:::::");
+    loop {
+        println!("\nWord Frequency Analyzer");
+        println!("Text: {}", text);
+        println!("\nCommands:");
+        println!("- Show top 5");
+        println!("- Search [word]");
+        println!("- Show all");
+        println!("- quit");
+
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+        let input = input.trim();
+
+        if input == "quit" {
+            break;
+        }
+
+        if input == "Show top 5" {
+            let mut word_vec: Vec<(&String, &usize)> = word_count.iter().collect();
+            word_vec.sort_by(|a, b| b.1.cmp(a.1));
+
+            println!("\nTop 5 most frequent words:");
+            for (i, (word, count)) in word_vec.iter().take(5).enumerate() {
+                println!("{}. {} ({})", i + 1, word, count);
+            }
+        } else if input.starts_with("Search ") {
+            let search_word = input[7..].to_lowercase();
+            match word_count.get(&search_word) {
+                Some(count) => println!("'{}' appears {} times", search_word, count),
+                None => println!("'{}' not found or is a stop word", search_word),
+            }
+        } else if input == "Show all" {
+            let mut word_vec: Vec<(&String, &usize)> = word_count.iter().collect();
+            word_vec.sort_by_key(|(word, _)| *word);
+
+            println!("\nAll words (alphabetically):");
+            for (word, count) in word_vec {
+                println!("  {}: {}", word, count);
+            }
+            println!("Total unique words: {}", word_count.len());
+        } else {
+            println!("Invalid command");
+        }
+    }
 }
 
 // Function for text to pig latin
