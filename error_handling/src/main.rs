@@ -45,7 +45,10 @@ fn main() {
         File::open("hello.txt").expect("hello.txt should be included in this project");
 
     // Propagating Errors
-    let user = read_username_from_file();
+    read_username_from_file();
+
+    // The ? Operator: A Shortcut for Propagating Errors
+    read_username_from_file_2();
 }
 
 // A function that returns errors to the calling code using match
@@ -63,4 +66,19 @@ fn read_username_from_file() -> Result<String, io::Error> {
         Ok(_) => Ok(username),
         Err(e) => Err(e),
     }
+}
+
+// A function that returns errors to the calling code using the ? operator
+fn read_username_from_file_2() -> Result<String, io::Error> {
+    let mut username_file = File::open("hello1.txt")?;
+    let mut username = String::new();
+    username_file.read_to_string(&mut username)?;
+    Ok(username)
+}
+
+// Chaining method calls using ? operator
+fn read_username_from_file_3() -> Result<String, io::Error> {
+    let mut username = String::new();
+    File::open("hello2.txt")?.read_to_string(&mut username)?;
+    Ok(username)
 }
